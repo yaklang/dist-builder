@@ -1,0 +1,23 @@
+version: '2.0'
+
+services:
+  yaklang_arm64:
+    image: golang:1.21
+    platform: linux/arm64
+    volumes:
+      - ./yaklang:/yaklang
+      - ./yaklang-dist:/dist
+      - ./gomodcache:/go/pkg/
+      - ./gotmpcache:/tmp/
+      - ./build_arm64_yaklang.sh.docker:/build.sh
+    environment:
+      - GOPROXY=https://goproxy.cn
+      - GO111MODULE=on
+      - CGO_ENABLE=1
+      - YAKLANG_VERSION=v1.2.9
+    working_dir: /yaklang
+    entrypoint: /build.sh
+
+    
+    
+    

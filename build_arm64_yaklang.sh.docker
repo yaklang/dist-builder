@@ -1,0 +1,8 @@
+#!/bin/bash
+bash -e
+cd /yaklang
+git checkout ${YAKLANG_VERSION} && echo "checkout version ${YAKLANG_VERSION} and start install libpcap-dev" 
+apt update -y && apt install -y libpcap-dev && echo "install deps(libpcap-dev) finished, start to build yaklang binary"
+
+go build -ldflags "-linkmode external -extldflags '-static' -s -w -X 'main.goVersion=$(go version)' -X 'main.gitHash=$(git show -s --format=%H)' -X 'main.buildTime=$(git show -s --format=%cd)' -X 'main.yakVersion=${YAKLANG_VERSION}'" -o "/dist/yak_$(go env GOOS)_$(go env GOARCH)" -v common/yak/cmd/yak.go
+# go build -o /dist/yak_linux_arm64 -v common/yak/cmd/yak.go
