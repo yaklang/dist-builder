@@ -1,0 +1,13 @@
+#!/bin/bash
+bash -e
+cd /yakit
+git checkout ${YAKIT_VERSION} && echo "checkout version ${YAKIT_VERSION} and start install" 
+# yarn config set registry https://registry.npm.taobao.org/
+
+# change registry
+yarn config set registry https://registry.npm.taobao.org/ && rm yarn.lock && rm app/renderer/src/main/yarn.lock
+source ./electron.env
+yarn install && yarn install-render
+
+export GENERATE_SOURCEMAP=false
+cd app/renderer/src/main/ && yarn build && cd -

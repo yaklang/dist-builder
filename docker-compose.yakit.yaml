@@ -1,0 +1,15 @@
+version: '2.0'
+
+services:
+  yakit_arm64:
+    image: node:18
+    platform: linux/arm64
+    volumes:
+      - ./yakit:/yakit
+      - ./build_arm64_yakit.sh.docker:/build_arm64_yakit.sh
+      - ./nodetmpcache:/cache
+    working_dir: /yakit
+    environment:
+      - NODE_OPTIONS=--openssl-legacy-provider
+      - YARN_CACHE_FOLDER=/cache
+    entrypoint: /build_arm64_yakit.sh
